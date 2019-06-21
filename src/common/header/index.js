@@ -1,7 +1,7 @@
 import React from 'react'
 import {CSSTransition } from 'react-transition-group'
 import { connect } from 'react-redux'
-import { changeSearchStateAction } from '../../store/actionCreators'
+import { changeSearchStateAction } from './store/actionCreators'
 import {
   HeaderWrapper,
   Logo,
@@ -53,7 +53,7 @@ const Header = (props) => {
 
 const mapStateToProps = (state) => {
   return {
-    focused: state.focused
+    focused: state.headerReducer.focused
   }
 }
 const mapDispatchToProps = (dispatch) => {
