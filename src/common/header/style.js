@@ -54,6 +54,44 @@ export const SearchWapper = styled.div`
     }
   }
 `
+export const SearchInfo = styled.div`
+  position: absolute;
+  left: 0;
+  top: 58px;
+  width: 240px;
+  min-height: 100px;
+  padding: 0 20px;
+  box-shadow: 0 0 8px rgba(0,0,0,.2);
+  .switch{
+    float: right;
+    font-size: 12px;
+    cursor: pointer;
+  }
+`
+export const SearchInfoList = styled.div`
+  overflow: hidden;
+`
+export const SearchInfoItem = styled.a.attrs({
+  href: ''
+})`
+  display: block;
+  float: left;
+  line-height: 20px;
+  padding: 0 5px;
+  margin-right: 10px;
+  margin-bottom: 15px;
+  font-size: 12px;
+  color: #333;
+  border: 1px solid #ddd;
+  border-radius: 2px;
+`
+export const SearchInfoTitle = styled.div`
+  margin-top: 20px;
+  margin-bottom: 15px;
+  line-height: 20px;
+  font-size: 14px;
+  color: #969696;
+`
 export const NavSearch = styled.input.attrs({
   placeholder: '搜索'
 })`

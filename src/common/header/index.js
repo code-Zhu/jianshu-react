@@ -9,10 +9,32 @@ import {
   NavItem,
   NavSearch,
   SearchWapper,
+  SearchInfo,
+  SearchInfoTitle,
+  SearchInfoList,
+  SearchInfoItem,
   Addition,
   Button
 } from './style'
-
+const getListArea = (show) => {
+  if (show) {
+    return (
+      <SearchInfo>
+        <SearchInfoTitle>
+          热门搜索
+          <span className='switch'>换一换</span>
+        </SearchInfoTitle>
+        <SearchInfoList>
+          <SearchInfoItem>教育</SearchInfoItem>
+          <SearchInfoItem>财经</SearchInfoItem>
+          <SearchInfoItem>历史</SearchInfoItem>
+        </SearchInfoList>
+      </SearchInfo>
+    )
+  } else {
+    return null
+  }
+}
 const Header = (props) => {
   const { focused,handleChangeFocused } = props
   return(
@@ -38,6 +60,7 @@ const Header = (props) => {
           <i className={focused?'iconfont focused':'iconfont'}>
             &#xe600;
           </i>
+          {getListArea(focused)}
         </SearchWapper>
       </Nav>
       <Addition>
