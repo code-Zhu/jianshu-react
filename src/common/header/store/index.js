@@ -6,11 +6,12 @@ const  defaultState = fromJS({
 })
 
 export default (state=defaultState, action) => {
-  if (action.type === SEARCH_STATE) {
-    return state.set('focused', action.value)
+  switch(action.type) {
+    case SEARCH_STATE:
+      return state.set('focused', action.value);
+    case INIT_LIST:
+      return state.set('list', action.list)
+    default:
+      return state
   }
-  if (action.type === INIT_LIST) {
-    return state.set('list', action.list)
-  }
-  return state
 }
