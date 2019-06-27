@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import {CSSTransition } from 'react-transition-group'
 import { connect } from 'react-redux'
-import { changeSearchStateAction, getlist } from './store/actionCreators'
+import { changeSearchStateAction, getlist, changeMouseInAction, changePage } from './store/actionCreators'
 import {
   HeaderWrapper,
   Logo,
@@ -40,7 +40,7 @@ class Header extends Component {
                 onBlur={()=>handleChangeFocused(false)}
                 className={focused?'focused':''}/>
             </CSSTransition>
-            <i className={focused?'iconfont focused':'iconfont'}>
+            <i className={focused?'iconfont focused zoom':'iconfont zoom'}>
               &#xe600;
             </i>
             {this.getListArea()}
@@ -57,20 +57,31 @@ class Header extends Component {
     )
   }
   getListArea () {
-    const {focused, list} = this.props
-    if (focused) {
+    const {focused, mouseIn, list, page, total, mouseAction, handleChangePage} = this.props
+    const jsList = list.toJS() // 因为list是immutable类型的数据，不能直接用list[i]调用
+    const pageList = []
+    if (jsList.length) {
+      for (let i = (page - 1) * 10; i < page * 10; i++) {
+        jsList[i] && pageList.push(
+          <SearchInfoItem key={jsList[i]}>{jsList[i]}</SearchInfoItem>
+        )
+      }
+    }
+    if (focused || mouseIn) {
       return (
-        <SearchInfo>
+        <SearchInfo
+          onMouseEnter={() => {mouseAction(true)}}
+          onMouseLeave={() => {mouseAction(false)}}>
           <SearchInfoTitle>
             热门搜索
-            <span className='switch'>换一换</span>
+            <span className='switch'
+              onClick={() => {handleChangePage(page, total, this.iconSpin)}}>
+              <i ref={(icon) => {this.iconSpin = icon}} className="iconfont spin">&#xe851;</i>
+              换一换
+            </span>
           </SearchInfoTitle>
           <SearchInfoList>
-            {
-              list.map(item => {
-                return <SearchInfoItem key={item}>{item}</SearchInfoItem>
-              })
-            }
+            {pageList}
           </SearchInfoList>
         </SearchInfo>
       )
@@ -83,7 +94,10 @@ class Header extends Component {
 const mapStateToProps = (state) => {
   return {
     focused: state.getIn(['headerReducer', 'focused']),
-    list: state.getIn(['headerReducer', 'list'])
+    mouseIn: state.getIn(['headerReducer', 'mouseIn']),
+    list: state.getIn(['headerReducer', 'list']),
+    page: state.getIn(['headerReducer', 'page']),
+    total: state.getIn(['headerReducer', 'total'])
   }
 }
 const mapDispatchToProps = (dispatch) => {
@@ -94,6 +108,24 @@ const mapDispatchToProps = (dispatch) => {
         dispatch(getlist())
       )
       dispatch(action)
+    },
+    mouseAction (value) {
+      const action = changeMouseInAction(value)
+      dispatch(action)
+    },
+    handleChangePage (page, total, spinIcon) {
+      let angle = spinIcon.style.transform.replace(/[^0-9]/ig, '')
+      if (angle) {
+        angle = parseInt(angle)
+      } else {
+        angle = 0
+      }
+      spinIcon.style.transform = `rotate(${angle+360}deg)`
+      if (page < total) {
+        dispatch(changePage(page + 1))
+      } else {
+        dispatch(changePage(1))
+      }
     }
   }
 }

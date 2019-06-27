@@ -39,7 +39,7 @@ export const NavItem = styled.div`
 export const SearchWapper = styled.div`
   float: left;
   position: relative;
-  .iconfont{
+  .zoom{
     position: absolute;
     right: 5px;
     bottom: 5px;
@@ -91,6 +91,14 @@ export const SearchInfoTitle = styled.div`
   line-height: 20px;
   font-size: 14px;
   color: #969696;
+  .spin{
+    display: block;
+    float: left
+    font-size: 12px;
+    margin-right: 2px;
+    transition: all .2s ease-in;
+    transform-origin: center center;
+  }
 `
 export const NavSearch = styled.input.attrs({
   placeholder: '搜索'
