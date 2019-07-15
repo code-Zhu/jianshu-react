@@ -56,11 +56,13 @@ export const SearchWapper = styled.div`
 `
 export const SearchInfo = styled.div`
   position: absolute;
+  z-index: 1;
   left: 0;
   top: 58px;
   width: 240px;
   min-height: 100px;
   padding: 0 20px;
+  background: #fff;
   box-shadow: 0 0 8px rgba(0,0,0,.2);
   .switch{
     float: right;

@@ -36,7 +36,7 @@ class Header extends Component {
               timeout={200}
               classNames="slider">
               <NavSearch
-                onFocus={()=>handleChangeFocused(true)}
+                onFocus={()=>handleChangeFocused(true, this.props.list)}
                 onBlur={()=>handleChangeFocused(false)}
                 className={focused?'focused':''}/>
             </CSSTransition>
@@ -102,11 +102,11 @@ const mapStateToProps = (state) => {
 }
 const mapDispatchToProps = (dispatch) => {
   return {
-    handleChangeFocused (value) {
+    handleChangeFocused (value, list) {
       const action = changeSearchStateAction(value)
-      value && (
-        dispatch(getlist())
-      )
+      if (value) {
+        list.size < 1 && dispatch(getlist())
+      }
       dispatch(action)
     },
     mouseAction (value) {
